@@ -67,3 +67,27 @@ const firstCardObserver = new IntersectionObserver(
 );
 
 firstCardObserver.observe(cards[0]);
+window.addEventListener("scroll", function () {
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((card, index) => {
+    // Skip the last card as there's no card after it to trigger the effect
+    if (index === cards.length - 1) return;
+
+    // Get the next card
+    const nextCard = cards[index + 1];
+    // Get the position of the next card relative to the viewport
+    const nextCardRect = nextCard.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+
+    // If the next card comes into view, apply the effect to the current card
+    if (nextCardRect.top <= window.innerHeight / 1) {
+      card.style.transform = "scale(0.8)";
+      card.style.filter = "blur(5px)";
+    } else {
+      // Reset the effect if the next card is not in view
+      card.style.transform = "scale(1)";
+      card.style.filter = "blur(0px)";
+    }
+  });
+});
